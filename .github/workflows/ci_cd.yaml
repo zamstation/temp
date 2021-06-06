@@ -54,8 +54,10 @@ jobs:
         with:
           name: artifact
 
-      - name: Analyze
+      - name: Install Dart
         uses: dart-lang/setup-dart@v1
+
+      - name: Analyze
         run: bash temp/analyze.sh
 
       - name: Validate
@@ -72,8 +74,10 @@ jobs:
         with:
           name: artifact
 
-      - name: Test
+      - name: Install Dart
         uses: dart-lang/setup-dart@v1
+
+      - name: Test
         run: bash temp/test.sh
 
   publish:
@@ -87,6 +91,8 @@ jobs:
         with:
           name: artifact
 
-      - name: Publish
+      - name: Install Dart
         uses: dart-lang/setup-dart@v1
+
+      - name: Publish
         run: bash temp/publish.sh

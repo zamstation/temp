@@ -5,7 +5,7 @@ echo "Downloading Scripts from $remoteDir to $localDir ..."
 curl -o "$localDir/logger.sh" "$remoteDir/logger.sh"
 curl -o "$localDir/error_thrower.sh" "$remoteDir/error_thrower.sh"
 curl -o "$localDir/test.sh" "$remoteDir/test.sh"
-chmod 700
+chmod 700 "$localDir/*.sh"
 ls -l "$localDir"
 echo "Running Scripts ..."
 ./"$localDir/test.sh"

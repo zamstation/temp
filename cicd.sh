@@ -1,5 +1,6 @@
+set -e
 remoteDir="https://raw.githubusercontent.com/zamstation/dart_package_template/main/scripts"
-localDir="temp"
+localDir=".temp"
 mkdir -p "$localDir"
 echo "Downloading Scripts from $remoteDir to $localDir ..."
 curl -o "$localDir/logger.sh" "$remoteDir/logger.sh"

@@ -9,21 +9,38 @@ on:
       - main
 
 jobs:
-  build:
+  Download:    
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
-      - uses: dart-lang/setup-dart@v1
+      - name: Checkout Code
+        uses: actions/checkout@v2
 
       - name: Download Scripts
         run: bash download.sh
 
+      - name: Cache Scripts
+        id: scripts-cache
+        uses: actions/cache@v2
+        with:
+          path: temp
+          key: scripts-cache-key
+
   validate:
+    name: Validate
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: [Download]
 
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Extract Scripts From Cache
+        id: scripts-cache
+        uses: actions/cache@v2
+        with:
+          path: temp
+          key: scripts-cache-key
+
       - name: Validate
         run: |
           pwd

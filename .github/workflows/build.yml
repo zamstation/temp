@@ -8,47 +8,53 @@ on:
     branches:
       - main
 
-jobs:  
+jobs:
   prepare:
     name: Prepare
     runs-on: ubuntu-latest
-    steps:      
-      # - name: Checkout Code
-      #   uses: actions/checkout@v2
+    env:
+      CI_CD_REPO: https://raw.githubusercontent.com/zamstation/cicd_test/main
 
-      # - name: Use Cache or Download
-      #   run: | 
-      #     echo "::set-output name=CACHE_KEY::$(cat projectFile | grep -Po '(?<=Version>).*(?=</Version>)')"
-
-      - name: Download Scripts
-        run: bash download.sh
+    steps:
+      - name: Extract Cache Key
+        id: extract-cache-key
+        run: echo "::set-output name=CACHE_KEY::$(curl -s $CI_CD_REPO/version.txt)"
 
       - name: Cache Scripts
-        # id: scripts-cache
+        id: cache-scripts
         uses: actions/cache@v2
         with:
           path: temp
-          key: scripts-cache-key-2
+          key: ${{ steps.extract-cache-key.outputs.CACHE_KEY }}
+
+      - name: Download Scripts
+        if: steps.cache-scripts.outputs.cache-hit != 'true'
+        run: bash <(curl -s $CI_CD_REPO/download.sh)
 
   validate:
     name: Validate
     runs-on: ubuntu-latest
     needs: [prepare]
+    env:
+      CI_CD_REPO: https://raw.githubusercontent.com/zamstation/cicd_test/main
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
 
+      - name: Extract Cache Key
+        id: extract-cache-key
+        run: echo "::set-output name=CACHE_KEY::$(curl -s $CI_CD_REPO/version.txt)"
+
       - name: Extract Scripts From Cache
-        # id: scripts-cache
         uses: actions/cache@v2
         with:
           path: temp
-          key: scripts-cache-key-2
+          key: ${{ steps.extract-cache-key.outputs.CACHE_KEY }}
 
       - name: Validate
         run: |
           pwd
           ls -ltr
           ls -ltr temp
-          bash temp/publish.sh
+          bash temp/validate.sh

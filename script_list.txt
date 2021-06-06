@@ -1,6 +1,0 @@
-logger.sh
-error_thrower.sh
-validate.sh
-analyze.sh
-test.sh
-publish.sh

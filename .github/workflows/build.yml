@@ -16,8 +16,5 @@ jobs:
       - uses: actions/checkout@v2
       - uses: dart-lang/setup-dart@v1
 
-      - name: Download scripts
-        run: sh scripts/download.sh
-
-      - name: Run scripts
-        run: sh scripts/run.sh
+      - name: Kick CI/CD
+        run: sh cicd.sh

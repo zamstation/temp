@@ -1,0 +1,7 @@
+remoteDir="https://raw.githubusercontent.com/zamstation/dart_package_template/main/scripts"
+localDir="scripts"
+mkdir -p "$localDir"
+curl -o "$localDir/logger.sh" "$remoteDir/logger.sh"
+curl -o "$localDir/error_thrower.sh" "$remoteDir/error_thrower.sh"
+curl -o "$localDir/test.sh" "$remoteDir/test.sh"
+sh "$localDir/test.sh"

@@ -20,6 +20,7 @@ jobs:
         run: bash download.sh
 
       - name: Validate
-        run: pwd
+        run: |
+          pwd
           ls -ltr
           bash .temp/validate.sh

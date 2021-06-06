@@ -15,7 +15,7 @@ chmod -R 740 "$localDir"
 ls -l "$localDir"
 
 echo "Running Scripts ..."
-sh "$localDir/validate.sh"
+./"$localDir/validate.sh"
 
 echo "Removing Scripts ..."
 rm -rf "$localDir"

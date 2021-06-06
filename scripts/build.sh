@@ -4,9 +4,9 @@ mkdir -p "$localDir"
 ls -l
 ls -l $localDir
 echo "Downloading Scripts ..."
-curl -s -o "$localDir/logger.sh" "$remoteDir/logger.sh"
-curl -s -o "$localDir/error_thrower.sh" "$remoteDir/error_thrower.sh"
-curl -s -o "$localDir/test.sh" "$remoteDir/test.sh"
+curl -o "$localDir/logger.sh" "$remoteDir/logger.sh"
+curl -o "$localDir/error_thrower.sh" "$remoteDir/error_thrower.sh"
+curl -o "$localDir/test.sh" "$remoteDir/test.sh"
 echo "Running Scripts ..."
 sh "$localDir/test.sh"
 echo "Removing Scripts ..."

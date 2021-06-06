@@ -20,10 +20,10 @@ done
 echo -e "\nContents of $localDir:"
 ls -ltr "$localDir"
 
-echo -e "\nRunning Scripts ..."
-./"$localDir/validate.sh"
+# echo -e "\nRunning Scripts ..."
+# ./"$localDir/validate.sh"
 
-echo "\nCleaning Up ..."
-rm -rf "$localDir"
+# echo -e "\nCleaning Up ..."
+# rm -rf "$localDir"
 
 exit 0

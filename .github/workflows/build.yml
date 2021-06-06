@@ -16,5 +16,11 @@ jobs:
       - uses: actions/checkout@v2
       - uses: dart-lang/setup-dart@v1
 
-      - name: Kick CI/CD
-        run: sh cicd.sh
+      - name: Download Scripts
+        run: ./download.sh
+
+      - name: Validate
+        run: 
+          pwd
+          ls -ltr
+          ./.temp/validate.sh 

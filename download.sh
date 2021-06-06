@@ -3,13 +3,13 @@ set -e
 
 echo ""
 remoteDir="https://raw.githubusercontent.com/zamstation/dart_package_template/main/scripts"
-localDir=".temp"
+localDir="temp"
 mkdir -p "$localDir"
 
 declare -a scripts
 while read -r scriptName; do
 	scripts[((i++))]="$scriptName"
-done < "script_list.txt"
+done <"script_list.txt"
 
 for script in "${scripts[@]}"; do
 	echo "Downloading $remoteDir/$script ..."

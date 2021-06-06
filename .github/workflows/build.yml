@@ -19,8 +19,12 @@ jobs:
       - name: Download Scripts
         run: bash download.sh
 
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Validate
         run: |
           pwd
-          ls -ltr
-          bash .temp/validate.sh
+          ls -ltr temp
+          bash temp/validate.sh

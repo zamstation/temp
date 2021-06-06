@@ -55,6 +55,7 @@ jobs:
           name: artifact
 
       - name: Analyze
+        uses: dart-lang/setup-dart@v1
         run: bash temp/analyze.sh
 
       - name: Validate
@@ -72,6 +73,7 @@ jobs:
           name: artifact
 
       - name: Test
+        uses: dart-lang/setup-dart@v1
         run: bash temp/test.sh
 
   publish:
@@ -86,4 +88,5 @@ jobs:
           name: artifact
 
       - name: Publish
+        uses: dart-lang/setup-dart@v1
         run: bash temp/publish.sh

@@ -17,10 +17,10 @@ jobs:
       - uses: dart-lang/setup-dart@v1
 
       - name: Download Scripts
-        run: ./download.sh
+        run: sh download.sh
 
       - name: Validate
         run: 
           pwd
           ls -ltr
-          ./.temp/validate.sh 
+          sh .temp/validate.sh 

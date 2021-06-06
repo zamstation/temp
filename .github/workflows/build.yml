@@ -19,7 +19,7 @@ jobs:
         run: bash download.sh
 
       - name: Cache Scripts
-        id: scripts-cache
+        # id: scripts-cache
         uses: actions/cache@v2
         with:
           path: temp
@@ -35,7 +35,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Extract Scripts From Cache
-        id: scripts-cache
+        # id: scripts-cache
         uses: actions/cache@v2
         with:
           path: temp
@@ -44,5 +44,6 @@ jobs:
       - name: Validate
         run: |
           pwd
+          ls -ltr
           ls -ltr temp
           bash temp/validate.sh

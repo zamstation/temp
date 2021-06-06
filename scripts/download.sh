@@ -1,9 +1,10 @@
 remoteDir="https://raw.githubusercontent.com/zamstation/dart_package_template/main/scripts"
-localDir="./.temp"
+localDir="temp"
+mkdir "$localDir"
 mkdir -p "$localDir"
 echo "Downloading Scripts ..."
 touch "a.txt"
-echo "hi" > "a.txt"
+echo "hi" >"a.txt"
 ls -l
 cat "a.txt"
 curl -o "$localDir/logger.sh" "$remoteDir/logger.sh"

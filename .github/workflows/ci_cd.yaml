@@ -39,7 +39,7 @@ jobs:
         run: |
           git clone https://github.com/zamstation/dart_package_deployer.git
           ls -ltr
-          cd scripts
+          cd dart_package_deployer/scripts
           ls -ltr
         # run: bash <(curl -s $DEPLOYER_REPOSITORY/main.sh)
 

@@ -13,9 +13,8 @@ env:
   CACHE_KEY_PREFIX: dart-package-workspace
 
 jobs:
-
-  initialize:
-    name: Initialize
+  setup:
+    name: Setup
     runs-on: ubuntu-latest
 
     steps:
@@ -54,19 +53,19 @@ jobs:
         uses: actions/cache@v2
         with:
           path: workspace
-          key: $GITHUB_SHA
+          key: ${{ github.sha }}
 
   build:
     name: Build
     runs-on: ubuntu-latest
-    needs: [initialize]
+    needs: [setup]
 
     steps:
       - name: Import Workspace
         uses: actions/cache@v2
         with:
           path: workspace
-          key: $GITHUB_SHA
+          key: ${{ github.sha }}
 
       - name: Checkout Repository
         uses: actions/checkout@v2

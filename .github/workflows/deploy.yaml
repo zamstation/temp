@@ -89,7 +89,7 @@ jobs:
           ls -ltra ..
           ls -ltra ../deploy/scripts
           ls -ltra ../deploy/scripts/compile.sh
-          chmod 755 /deploy/scripts/compile.sh
+          chmod 755 ../deploy/scripts/compile.sh
       - name: Compile
         run: bash ./../deploy/scripts/compile.sh
       - name: Lint

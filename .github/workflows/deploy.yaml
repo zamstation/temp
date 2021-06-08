@@ -91,13 +91,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
+      - name: Install Dart
+        uses: dart-lang/setup-dart@v1
       - name: Import Workspace
         uses: actions/cache@v2
         with:
           path: workspace
           key: build-${{ github.sha }}
-      - name: Install Dart
-        uses: dart-lang/setup-dart@v1
       - name: Test
         run: |
           ls -ltra build

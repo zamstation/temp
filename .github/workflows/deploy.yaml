@@ -71,7 +71,11 @@ jobs:
 
       - name: Pack
         run: |
+          pwd
+          ls -ltr
           cd workspace
+          ls -ltr
+          ls -ltra code
           bash deploy/scripts/pack.sh code build
 
       - name: Export Workspace

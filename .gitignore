@@ -3,5 +3,3 @@
 /coverage/
 pubspec.lock
 .packages
-.temp
-.deploy

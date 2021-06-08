@@ -1,4 +1,4 @@
-name: CI/CD
+name: Deploy Package
 
 on:
   push:
@@ -38,9 +38,7 @@ jobs:
         if: steps.cache-scripts.outputs.cache-hit != 'true'
         run: |
           git clone https://github.com/zamstation/dart_package_deployer.git
-          ls -ltr
-          cd dart_package_deployer/scripts
-          ls -ltr
+          bash dart_package_deployer/bin/main.sh
         # run: bash <(curl -s $DEPLOYER_REPOSITORY/main.sh)
 
   build:

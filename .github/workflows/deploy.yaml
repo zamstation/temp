@@ -9,7 +9,7 @@ on:
       - main
 
 env:
-  VERSION_FILE: https://raw.githubusercontent.com/zamstation/dart_package_deployer/main/version.txt
+  DEPLOYER_PUBSPEC: https://raw.githubusercontent.com/zamstation/dart_package_deployer/main/pubspec.yaml
   CACHE_KEY_PREFIX: dart-package-workspace
 
 jobs:
@@ -20,8 +20,8 @@ jobs:
     steps:
       - name: Extract Cache Key
         id: extract-cache-key
-        run: |
-          cacheKey="$CACHE_KEY_PREFIX-$(curl -s $VERSION_FILE)"
+        run: |          
+          cacheKey="$CACHE_KEY_PREFIX-$(curl -s $DEPLOYER_PUBSPEC | grep "version:" | cut -d":" -f2 | xargs)"
           echo "Cache Key: $cacheKey"
           echo "::set-output name=cacheKey::$cacheKey"
 
@@ -38,6 +38,14 @@ jobs:
           git clone https://github.com/zamstation/dart_package_deployer.git
           bash dart_package_deployer/bin/main.sh
           rm -rf dart_package_deployer
+
+      - name: Display Workspace
+        run: |
+          echo "Workspace Directory:"
+          ls -ltr workspace
+          echo -e "\nScripts Directory:"
+          ls -ltr workspace/deploy/scripts
+          echo ${{ env.GITHUB_SHA }} - ${{ env.GITHUB_RUN_NUMBER }}
 
       - name: Export Workspace
         uses: actions/cache@v2
@@ -80,7 +88,7 @@ jobs:
       - name: Extract Cache Key
         id: extract-cache-key
         run: |
-          cacheKey=$(curl -s $VERSION_FILE)
+          cacheKey=$(curl -s $DEPLOYER_PUBSPEC)
           echo "Cache Key: $cacheKey"
           echo "::set-output name=CACHE_KEY::$cacheKey"
 
@@ -113,7 +121,7 @@ jobs:
       - name: Extract Cache Key
         id: extract-cache-key
         run: |
-          cacheKey=$(curl -s $VERSION_FILE)
+          cacheKey=$(curl -s $DEPLOYER_PUBSPEC)
           echo "Cache Key: $cacheKey"
           echo "::set-output name=CACHE_KEY::$cacheKey"
 
@@ -143,7 +151,7 @@ jobs:
       - name: Extract Cache Key
         id: extract-cache-key
         run: |
-          cacheKey=$(curl -s $VERSION_FILE)
+          cacheKey=$(curl -s $DEPLOYER_PUBSPEC)
           echo "Cache Key: $cacheKey"
           echo "::set-output name=CACHE_KEY::$cacheKey"
 

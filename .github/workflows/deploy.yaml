@@ -62,9 +62,9 @@ jobs:
         with:
           path: workspace/code
       - name: Pack
-        run: |
-          cd workspace
-          bash deploy/scripts/pack.sh code build
+        run: bash workspace/deploy/scripts/pack.sh workspace/code workspace/build
+      - name: Compile
+        run: bash workspace/deploy/scripts/compile.sh workspace/build
       - name: Export Workspace
         uses: actions/cache@v2
         with:
@@ -87,12 +87,10 @@ jobs:
         run: |
           cd workspace
           # ls -ltra ..
-          chmod 755 deploy/scripts/compile.sh
-          ls -ltra deploy/scripts/compile.sh
-      - name: Compile
-        run: bash deploy/scripts/compile.sh
+          chmod 755 deploy/scripts/lint.sh
+          ls -ltra deploy/scripts/lint.sh
       - name: Lint
-        run: ./deploy/scripts/lint.sh
+        run: bash workspace/deploy/scripts/lint.sh workspace/build
       - name: Analyze
         run: bash ../deploy/scripts/analyze.sh
       - name: Validate

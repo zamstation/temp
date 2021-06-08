@@ -106,9 +106,9 @@ jobs:
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
       - name: Compile
-        run: bash deploy/scripts/compile.sh build
+        run: bash ../deploy/scripts/compile.sh
       - name: Test
-        run: bash deploy/scripts/test.sh build
+        run: bash ../deploy/scripts/test.sh
       - name: Cleanup
         run: |
           rm -rf .dart_tool

@@ -55,7 +55,7 @@ jobs:
       - name: Import Workspace
         uses: actions/cache@v2
         with:
-          # path: workspace
+          path: .
           key: prepare-${{ github.sha }}
       - name: Show Workspace
         run: |

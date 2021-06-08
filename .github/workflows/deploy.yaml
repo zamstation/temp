@@ -48,13 +48,13 @@ jobs:
           ls -ltr workspace/deploy/scripts
           echo -e "\nBuild Directory:"
           ls -ltr workspace/build
-          echo "$GITHUB_SHA-$GITHUB_RUN_NUMBER"
+          echo "$GITHUB_SHA-$GITHUB_RUN_ID-$GITHUB_RUN_NUMBER"
 
       - name: Export Workspace
         uses: actions/cache@v2
         with:
           path: workspace
-          key: $GITHUB_SHA-$GITHUB_RUN_NUMBER
+          key: $GITHUB_SHA
 
   build:
     name: Build
@@ -66,7 +66,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: workspace
-          key: ${{ env.GITHUB_SHA }} - ${{ env.GITHUB_RUN_NUMBER }}
+          key: $GITHUB_SHA
 
       - name: Checkout Repository
         uses: actions/checkout@v2

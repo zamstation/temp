@@ -91,7 +91,7 @@ jobs:
           chmod 755 ../deploy/scripts/compile.sh
       - name: Lint
         run: bash ../deploy/scripts/lint.sh
-      - name: Compile2
+      - name: Compile3
         run: bash ../deploy/scripts/compile.sh
       - name: Analyze
         run: bash ../deploy/scripts/analyze.sh

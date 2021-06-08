@@ -45,9 +45,6 @@ jobs:
           ls -ltra workspace
           echo -e "\nScripts Directory:"
           ls -ltra workspace/deploy/scripts
-          echo -e "\nBuild Directory:"
-          ls -ltra workspace/build
-          echo "$GITHUB_SHA-$GITHUB_ACTOR"
 
       - name: Export Workspace
         uses: actions/cache@v2
@@ -73,16 +70,7 @@ jobs:
           path: workspace/code
 
       - name: Move Required Files To Build
-        run: |
-          cd workspace
-          bash pack.sh worspace/code workspace/build
-
-      - name: Show Workspace
-        run: |
-          echo "Code Directory:"
-          ls -ltra workspace/code
-          echo "Build Directory:"
-          ls -ltra workspace/build
+        run: cd workspace && bash deploy/scripts/pack.sh code build
 
       - name: Export Workspace
         uses: actions/cache@v2
@@ -94,91 +82,82 @@ jobs:
     name: Validate
     runs-on: ubuntu-latest
     needs: [build]
-    if: "false"
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Extract Cache Key
-        id: extract-cache-key
-        run: |
-          cacheKey=$(curl -s $DEPLOYER_PUBSPEC)
-          echo "Cache Key: $cacheKey"
-          echo "::set-output name=CACHE_KEY::$cacheKey"
-
-      - name: Extract Scripts From Cache
-        id: cache-scripts
+      - name: Import Workspace
         uses: actions/cache@v2
         with:
-          path: .temp
-          key: ${{ steps.extract-cache-key.outputs.CACHE_KEY }}
+          path: workspace
+          key: build-${{ github.sha }}
 
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
 
+      - name: Move to build directory
+        run: cd workspace/build
+
+      - name: Compile
+        run: bash compile.sh
+
+      - name: Lint
+        run: bash lint.sh
+
       - name: Analyze
-        run: bash .temp/analyze.sh
+        run: bash analyze.sh
 
       - name: Validate
-        run: bash .temp/validate.sh
+        run: bash validate.sh
+
+      - name: Export Workspace
+        uses: actions/cache@v2
+        with:
+          path: workspace
+          key: validate-${{ github.sha }}
 
   test:
     name: Test
     runs-on: ubuntu-latest
     needs: [validate]
-    if: "false"
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Extract Cache Key
-        id: extract-cache-key
-        run: |
-          cacheKey=$(curl -s $DEPLOYER_PUBSPEC)
-          echo "Cache Key: $cacheKey"
-          echo "::set-output name=CACHE_KEY::$cacheKey"
-
-      - name: Extract Scripts From Cache
-        id: cache-scripts
+      - name: Import Workspace
         uses: actions/cache@v2
         with:
-          path: .temp
-          key: ${{ steps.extract-cache-key.outputs.CACHE_KEY }}
+          path: workspace
+          key: validate-${{ github.sha }}
 
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
 
+      - name: Move to build directory
+        run: cd workspace/build
+
       - name: Test
-        run: bash .temp/test.sh
+        run: bash test.sh
+
+      - name: Export Workspace
+        uses: actions/cache@v2
+        with:
+          path: workspace
+          key: test-${{ github.sha }}
 
   publish:
     name: Publish
     runs-on: ubuntu-latest
     needs: [test]
-    if: "false"
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Extract Cache Key
-        id: extract-cache-key
-        run: |
-          cacheKey=$(curl -s $DEPLOYER_PUBSPEC)
-          echo "Cache Key: $cacheKey"
-          echo "::set-output name=CACHE_KEY::$cacheKey"
-
-      - name: Extract Scripts From Cache
-        id: cache-scripts
+      - name: Import Workspace
         uses: actions/cache@v2
         with:
-          path: .temp
-          key: ${{ steps.extract-cache-key.outputs.CACHE_KEY }}
+          path: workspace
+          key: test-${{ github.sha }}
 
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
 
+      - name: Move to build directory
+        run: cd workspace/build
+
       - name: Publish
-        run: bash .temp/publish.sh
+        run: bash publish.sh

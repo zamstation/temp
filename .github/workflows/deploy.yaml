@@ -71,10 +71,7 @@ jobs:
 
       - name: Pack
         run: |
-          pwd
           cd workspace
-          ls -ltr
-          ls -ltra code
           bash deploy/scripts/pack.sh code build
 
       - name: Export Workspace
@@ -98,20 +95,17 @@ jobs:
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
 
-      - name: Move to build directory
-        run: cd workspace/build
-
       - name: Compile
-        run: bash compile.sh
+        run: bash deploy/scripts/compile.sh build
 
       - name: Lint
-        run: bash lint.sh
+        run: bash deploy/scripts/lint.sh build
 
       - name: Analyze
-        run: bash analyze.sh
+        run: bash deploy/scripts/analyze.sh build
 
       - name: Validate
-        run: bash validate.sh
+        run: bash deploy/scripts/validate.sh build
 
       - name: Export Workspace
         uses: actions/cache@v2
@@ -134,11 +128,8 @@ jobs:
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
 
-      - name: Move to build directory
-        run: cd workspace/build
-
       - name: Test
-        run: bash test.sh
+        run: bash deploy/scripts/test.sh build
 
       - name: Export Workspace
         uses: actions/cache@v2
@@ -161,8 +152,5 @@ jobs:
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
 
-      - name: Move to build directory
-        run: cd workspace/build
-
       - name: Publish
-        run: bash publish.sh
+        run: bash deploy/scripts/publish.sh build

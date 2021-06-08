@@ -85,12 +85,12 @@ jobs:
         uses: dart-lang/setup-dart@v1
       - name: Go to build directory
         run: |
-          cd workspace/build
-          ls -ltra ..
-          ls -ltra ../deploy/scripts/compile.sh
-          chmod 755 ../deploy/scripts/compile.sh
+          # cd workspace/build
+          # ls -ltra ..
+          ls -ltra deploy/scripts/compile.sh
+          chmod 755 deploy/scripts/compile.sh
       - name: Lint
-        run: bash ../deploy/scripts/lint.sh
+        run: bash deploy/scripts/lint.sh
       - name: Compile3
         run: bash ../deploy/scripts/compile.sh
       - name: Analyze

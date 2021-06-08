@@ -56,7 +56,6 @@ jobs:
         with:
           path: workspace
           key: ${{ GITHUB_SHA }} - ${{ GITHUB_RUN_NUMBER }}
-        run: echo "hi"
 
       - name: Checkout Repository
         uses: actions/checkout@v2

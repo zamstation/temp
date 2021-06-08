@@ -69,8 +69,12 @@ jobs:
         with:
           path: workspace/code
 
-      - name: Move Required Files To Build
-        run: cd workspace && bash deploy/scripts/pack.sh code build
+      - name: Pack
+        run: |
+          cd workspace
+          ls -ltra code
+          ls -ltra build
+          bash deploy/scripts/pack.sh code build
 
       - name: Export Workspace
         uses: actions/cache@v2

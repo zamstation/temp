@@ -9,8 +9,7 @@ on:
       - main
 
 env:
-  DEPLOYER_REPOSITORY: https://raw.githubusercontent.com/zamstation/dart_package_deployer/main
-  CACHE_KEY_FILE: cache_key.txt
+  VERSION_FILE: https://raw.githubusercontent.com/zamstation/dart_package_deployer/main/version.txt
   CACHE_KEY_PREFIX: dart-package-workspace
 
 jobs:
@@ -22,53 +21,52 @@ jobs:
       - name: Extract Cache Key
         id: extract-cache-key
         run: |
-          curl -s -o $CACHE_KEY_FILE $DEPLOYER_REPOSITORY/version.txt
-          cacheKey="$CACHE_KEY_PREFIX-$(cat $CACHE_KEY_FILE)"
+          cacheKey="$CACHE_KEY_PREFIX-$(curl -s $VERSION_FILE)"
           echo "Cache Key: $cacheKey"
           echo "::set-output name=cacheKey::$cacheKey"
 
       - name: Extract Workspace From Cache
-        id: cache-scripts
+        id: cache-workspace
         uses: actions/cache@v2
         with:
           path: workspace
           key: ${{ steps.extract-cache-key.outputs.cacheKey }}
 
-      - name: Download Deploy Tools
-        if: steps.cache-scripts.outputs.cache-hit != 'true'
+      - name: Create New Workspace
+        if: steps.cache-workspace.outputs.cache-hit != 'true'
         run: |
           git clone https://github.com/zamstation/dart_package_deployer.git
           bash dart_package_deployer/bin/main.sh
-        # run: bash <(curl -s $DEPLOYER_REPOSITORY/main.sh)
+          rm -rf dart_package_deployer
+
+      - name: Export Workspace
+        uses: actions/cache@v2
+        with:
+          path: workspace
+          key: ${{ GITHUB_SHA }} - ${{ GITHUB_RUN_NUMBER }}
 
   build:
     name: Build
     runs-on: ubuntu-latest
     needs: [initialize]
-    if: "false"
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Extract Cache Key
-        id: extract-cache-key
-        run: |
-          cacheKey=$(curl -s $DEPLOYER_REPOSITORY/version.txt)
-          echo "Cache Key: $cacheKey"
-          echo "DEPLOYER_REPOSITORY: $DEPLOYER_REPOSITORY"
-          echo "::set-output name=CACHE_KEY::$cacheKey"
-
-      - name: Extract Scripts From Cache
-        id: cache-scripts
+      - name: Import Workspace
         uses: actions/cache@v2
         with:
-          path: .temp
-          key: ${{ steps.extract-cache-key.outputs.CACHE_KEY }}
+          path: workspace
+          key: ${{ GITHUB_SHA }} - ${{ GITHUB_RUN_NUMBER }}
+        run: echo "hi"
 
-      - name: Download Scripts
-        if: steps.cache-scripts.outputs.cache-hit != 'true'
-        run: bash <(curl -s $DEPLOYER_REPOSITORY/download.sh)
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          path: workspace/code
+
+      - name: Validate Checkout
+        run: |
+          cd workspace/code
+          ls -ltr
 
   validate:
     name: Validate
@@ -83,7 +81,7 @@ jobs:
       - name: Extract Cache Key
         id: extract-cache-key
         run: |
-          cacheKey=$(curl -s $DEPLOYER_REPOSITORY/version.txt)
+          cacheKey=$(curl -s $VERSION_FILE)
           echo "Cache Key: $cacheKey"
           echo "::set-output name=CACHE_KEY::$cacheKey"
 
@@ -116,7 +114,7 @@ jobs:
       - name: Extract Cache Key
         id: extract-cache-key
         run: |
-          cacheKey=$(curl -s $DEPLOYER_REPOSITORY/version.txt)
+          cacheKey=$(curl -s $VERSION_FILE)
           echo "Cache Key: $cacheKey"
           echo "::set-output name=CACHE_KEY::$cacheKey"
 
@@ -146,7 +144,7 @@ jobs:
       - name: Extract Cache Key
         id: extract-cache-key
         run: |
-          cacheKey=$(curl -s $DEPLOYER_REPOSITORY/version.txt)
+          cacheKey=$(curl -s $VERSION_FILE)
           echo "Cache Key: $cacheKey"
           echo "::set-output name=CACHE_KEY::$cacheKey"
 

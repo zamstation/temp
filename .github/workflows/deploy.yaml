@@ -78,6 +78,8 @@ jobs:
         run: bash deploy/scripts/lint.sh build
       - name: Analyze
         run: bash deploy/scripts/analyze.sh build
+      - name: Test
+        run: bash deploy/scripts/test.sh build
       - name: Export Workspace
         uses: actions/cache@v2
         with:

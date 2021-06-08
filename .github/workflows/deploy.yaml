@@ -44,7 +44,7 @@ jobs:
       - name: Export Workspace
         uses: actions/cache@v2
         with:
-          path: workspace
+          path: .
           key: prepare-${{ github.sha }}
 
   build:
@@ -55,26 +55,32 @@ jobs:
       - name: Import Workspace
         uses: actions/cache@v2
         with:
-          path: workspace
+          # path: workspace
           key: prepare-${{ github.sha }}
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-        with:
-          path: workspace/code
-      - name: Pack
-        run: bash workspace/deploy/scripts/pack.sh workspace/code workspace/build
-      - name: Compile
-        run: bash workspace/deploy/scripts/compile.sh workspace/build
-      - name: Export Workspace
-        uses: actions/cache@v2
-        with:
-          path: workspace
-          key: build-${{ github.sha }}
+      - name: Show Workspace
+        run: |
+          ls -ltra
+          echo "Workspace Directory:"
+          ls -ltra workspace
+      # - name: Checkout Repository
+      #   uses: actions/checkout@v2
+      #   with:
+      #     path: workspace/code
+      # - name: Pack
+      #   run: bash workspace/deploy/scripts/pack.sh workspace/code workspace/build
+      # - name: Compile
+      #   run: bash workspace/deploy/scripts/compile.sh workspace/build
+      # - name: Export Workspace
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: workspace
+      #     key: build-${{ github.sha }}
 
   validate:
     name: Validate
     runs-on: ubuntu-latest
     needs: [build]
+    if: "false"
     steps:
       - name: Import Workspace
         uses: actions/cache@v2

@@ -8,14 +8,13 @@ on:
     branches:
       - main
 
-env:
-  DEPLOYER_PUBSPEC: https://raw.githubusercontent.com/zamstation/dart_package_deployer/main/pubspec.yaml
-  CACHE_KEY_PREFIX: dart-package-workspace
-
 jobs:
   prepare:
     name: Prepare
     runs-on: ubuntu-latest
+    env:
+      DEPLOYER_PUBSPEC: https://raw.githubusercontent.com/zamstation/dart_package_deployer/main/pubspec.yaml
+      CACHE_KEY_PREFIX: dart-package-workspace
 
     steps:
       - name: Extract Cache Key
@@ -24,28 +23,24 @@ jobs:
           cacheKey="$CACHE_KEY_PREFIX-$(curl -s $DEPLOYER_PUBSPEC | grep "version:" | cut -d":" -f2 | xargs)"
           echo "Cache Key: $cacheKey"
           echo "::set-output name=cacheKey::$cacheKey"
-
       - name: Extract Workspace From Cache
         id: cache-workspace
         uses: actions/cache@v2
         with:
           path: workspace
           key: ${{ steps.extract-cache-key.outputs.cacheKey }}
-
       - name: Create New Workspace
         if: steps.cache-workspace.outputs.cache-hit != 'true'
         run: |
           git clone https://github.com/zamstation/dart_package_deployer.git
           bash dart_package_deployer/bin/main.sh
           rm -rf dart_package_deployer
-
       - name: Show Workspace
         run: |
           echo "Workspace Directory:"
           ls -ltra workspace
           echo -e "\nScripts Directory:"
           ls -ltra workspace/deploy/scripts
-
       - name: Export Workspace
         uses: actions/cache@v2
         with:
@@ -56,24 +51,20 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     needs: [prepare]
-
     steps:
       - name: Import Workspace
         uses: actions/cache@v2
         with:
           path: workspace
           key: prepare-${{ github.sha }}
-
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
           path: workspace/code
-
       - name: Pack
         run: |
           cd workspace
           bash deploy/scripts/pack.sh code build
-
       - name: Export Workspace
         uses: actions/cache@v2
         with:
@@ -84,32 +75,28 @@ jobs:
     name: Validate
     runs-on: ubuntu-latest
     needs: [build]
-
     steps:
       - name: Import Workspace
         uses: actions/cache@v2
         with:
           path: workspace
           key: build-${{ github.sha }}
-
       - name: Go to build directory
-        run: cd workspace/build
-
+        run: |
+          cd workspace/build
+          ls -ltra ..
+          ls -ltra ../deploy/scripts
+          ls -ltra ../deploy/scripts/compile.sh
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
-
       - name: Compile
         run: bash ../deploy/scripts/compile.sh
-
       - name: Lint
         run: bash ../deploy/scripts/lint.sh
-
       - name: Analyze
         run: bash ../deploy/scripts/analyze.sh
-
       - name: Validate
         run: bash ../deploy/scripts/validate.sh
-
       - name: Export Workspace
         uses: actions/cache@v2
         with:
@@ -120,23 +107,18 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     needs: [validate]
-
     steps:
       - name: Import Workspace
         uses: actions/cache@v2
         with:
           path: workspace
           key: validate-${{ github.sha }}
-
       - name: Go to build directory
         run: cd workspace/build
-
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
-
       - name: Test
         run: bash ../deploy/scripts/test.sh
-
       - name: Export Workspace
         uses: actions/cache@v2
         with:
@@ -147,19 +129,15 @@ jobs:
     name: Publish
     runs-on: ubuntu-latest
     needs: [test]
-
     steps:
       - name: Import Workspace
         uses: actions/cache@v2
         with:
           path: workspace
           key: test-${{ github.sha }}
-
       - name: Go to build directory
         run: cd workspace/build
-
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
-
       - name: Publish
         run: bash ../deploy/scripts/publish.sh

@@ -39,21 +39,21 @@ jobs:
           bash dart_package_deployer/bin/main.sh
           rm -rf dart_package_deployer
 
-      - name: Display Workspace
+      - name: Show Workspace
         run: |
           echo "Workspace Directory:"
-          ls -ltr workspace
+          ls -ltra workspace
           echo -e "\nScripts Directory:"
-          ls -ltr workspace/deploy/scripts
+          ls -ltra workspace/deploy/scripts
           echo -e "\nBuild Directory:"
-          ls -ltr workspace/build
-          echo "$GITHUB_SHA-$GITHUB_EVENT_NAME"
+          ls -ltra workspace/build
+          echo "$GITHUB_SHA-$GITHUB_ACTOR"
 
       - name: Export Workspace
         uses: actions/cache@v2
         with:
           path: workspace
-          key: ${{ github.sha }}
+          key: prepare-${{ github.sha }}
 
   build:
     name: Build
@@ -65,17 +65,30 @@ jobs:
         uses: actions/cache@v2
         with:
           path: workspace
-          key: ${{ github.sha }}
+          key: prepare-${{ github.sha }}
 
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
           path: workspace/code
 
-      - name: Validate Checkout
+      - name: Move Required Files To Build
         run: |
-          cd workspace/code
-          ls -ltr
+          cd workspace
+          bash pack.sh worspace/code workspace/build
+
+      - name: Show Workspace
+        run: |
+          echo "Code Directory:"
+          ls -ltra workspace/code
+          echo "Build Directory:"
+          ls -ltra workspace/build
+
+      - name: Export Workspace
+        uses: actions/cache@v2
+        with:
+          path: workspace
+          key: build-${{ github.sha }}
 
   validate:
     name: Validate

@@ -89,10 +89,10 @@ jobs:
           # ls -ltra ..
           chmod 755 deploy/scripts/compile.sh
           ls -ltra deploy/scripts/compile.sh
+      - name: Compile
+        run: bash deploy/scripts/compile.sh
       - name: Lint
         run: ./deploy/scripts/lint.sh
-      - name: Compile3
-        run: bash ../deploy/scripts/compile.sh
       - name: Analyze
         run: bash ../deploy/scripts/analyze.sh
       - name: Validate

@@ -13,14 +13,16 @@ env:
   CACHE_KEY_PREFIX: dart-package-workspace
 
 jobs:
+
   initialize:
     name: Initialize
     runs-on: ubuntu-latest
+    if: "false"
 
     steps:
       - name: Extract Cache Key
         id: extract-cache-key
-        run: |          
+        run: |
           cacheKey="$CACHE_KEY_PREFIX-$(curl -s $DEPLOYER_PUBSPEC | grep "version:" | cut -d":" -f2 | xargs)"
           echo "Cache Key: $cacheKey"
           echo "::set-output name=cacheKey::$cacheKey"
@@ -45,13 +47,15 @@ jobs:
           ls -ltr workspace
           echo -e "\nScripts Directory:"
           ls -ltr workspace/deploy/scripts
-          echo ${{ env.GITHUB_SHA }} - ${{ env.GITHUB_RUN_NUMBER }}
+          echo -e "\nBuild Directory:"
+          ls -ltr workspace/build
+          echo "$GITHUB_SHA-$GITHUB_RUN_NUMBER"
 
       - name: Export Workspace
         uses: actions/cache@v2
         with:
           path: workspace
-          key: ${{ env.GITHUB_SHA }} - ${{ env.GITHUB_RUN_NUMBER }}
+          key: $GITHUB_SHA-$GITHUB_RUN_NUMBER
 
   build:
     name: Build

@@ -79,11 +79,11 @@ jobs:
         run: bash ../deploy/scripts/lint.sh
       - name: Analyze
         run: bash ../deploy/scripts/analyze.sh
-      - name: Cleanup
-        run: |
-          rm -rf .dart_tool
-          rm -rf .pubspec.lock
-          rm -rf .packages
+      # - name: Cleanup
+      #   run: |
+      #     rm -rf .dart_tool
+      #     rm -rf .pubspec.lock
+      #     rm -rf .packages
       - name: Export Workspace
         uses: actions/cache@v2
         with:
@@ -105,8 +105,8 @@ jobs:
           key: build-${{ github.sha }}
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
-      - name: Compile
-        run: bash ../deploy/scripts/compile.sh
+      - name: Dart Pub Upgrade
+        run: pub upgrade
       - name: Test
         run: bash ../deploy/scripts/test.sh
       - name: Cleanup

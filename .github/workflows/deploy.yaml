@@ -13,8 +13,8 @@ env:
   CACHE_KEY_PREFIX: dart-package-workspace
 
 jobs:
-  setup:
-    name: Setup
+  prepare:
+    name: Prepare
     runs-on: ubuntu-latest
 
     steps:
@@ -47,7 +47,7 @@ jobs:
           ls -ltr workspace/deploy/scripts
           echo -e "\nBuild Directory:"
           ls -ltr workspace/build
-          echo "$GITHUB_SHA-$GITHUB_RUN_ID-$GITHUB_RUN_NUMBER"
+          echo "$GITHUB_SHA-$GITHUB_EVENT_NAME"
 
       - name: Export Workspace
         uses: actions/cache@v2
@@ -58,7 +58,7 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    needs: [setup]
+    needs: [prepare]
 
     steps:
       - name: Import Workspace

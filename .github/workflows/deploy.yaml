@@ -92,20 +92,23 @@ jobs:
           path: workspace
           key: build-${{ github.sha }}
 
+      - name: Go to build directory
+        run: cd workspace/build
+
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
 
       - name: Compile
-        run: bash deploy/scripts/compile.sh build
+        run: bash ../deploy/scripts/compile.sh
 
       - name: Lint
-        run: bash deploy/scripts/lint.sh build
+        run: bash ../deploy/scripts/lint.sh
 
       - name: Analyze
-        run: bash deploy/scripts/analyze.sh build
+        run: bash ../deploy/scripts/analyze.sh
 
       - name: Validate
-        run: bash deploy/scripts/validate.sh build
+        run: bash ../deploy/scripts/validate.sh
 
       - name: Export Workspace
         uses: actions/cache@v2
@@ -125,11 +128,14 @@ jobs:
           path: workspace
           key: validate-${{ github.sha }}
 
+      - name: Go to build directory
+        run: cd workspace/build
+
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
 
       - name: Test
-        run: bash deploy/scripts/test.sh build
+        run: bash ../deploy/scripts/test.sh
 
       - name: Export Workspace
         uses: actions/cache@v2
@@ -149,8 +155,11 @@ jobs:
           path: workspace
           key: test-${{ github.sha }}
 
+      - name: Go to build directory
+        run: cd workspace/build
+
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
 
       - name: Publish
-        run: bash deploy/scripts/publish.sh build
+        run: bash ../deploy/scripts/publish.sh

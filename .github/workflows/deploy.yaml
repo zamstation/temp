@@ -87,17 +87,16 @@ jobs:
         run: |
           cd workspace/build
           ls -ltra ..
-          ls -ltra ../deploy/scripts
           ls -ltra ../deploy/scripts/compile.sh
           chmod 755 ../deploy/scripts/compile.sh
-      - name: Compile
-        run: bash ./../deploy/scripts/compile.sh
       - name: Lint
-        run: bash ./../deploy/scripts/lint.sh
+        run: bash ../deploy/scripts/lint.sh
+      - name: Compile1
+        run: bash ../deploy/scripts/compile.sh
       - name: Analyze
-        run: bash ./../deploy/scripts/analyze.sh
+        run: bash ../deploy/scripts/analyze.sh
       - name: Validate
-        run: bash ./../deploy/scripts/validate.sh
+        run: bash ../deploy/scripts/validate.sh
       - name: Export Workspace
         uses: actions/cache@v2
         with:

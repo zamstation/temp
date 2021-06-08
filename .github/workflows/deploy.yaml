@@ -72,7 +72,6 @@ jobs:
       - name: Pack
         run: |
           pwd
-          ls -ltr
           cd workspace
           ls -ltr
           ls -ltra code

@@ -43,7 +43,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: workspace
-          key: ${{ GITHUB_SHA }} - ${{ GITHUB_RUN_NUMBER }}
+          key: ${{ env.GITHUB_SHA }} - ${{ env.GITHUB_RUN_NUMBER }}
 
   build:
     name: Build
@@ -55,7 +55,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: workspace
-          key: ${{ GITHUB_SHA }} - ${{ GITHUB_RUN_NUMBER }}
+          key: ${{ env.GITHUB_SHA }} - ${{ env.GITHUB_RUN_NUMBER }}
 
       - name: Checkout Repository
         uses: actions/checkout@v2

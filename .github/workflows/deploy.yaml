@@ -87,10 +87,10 @@ jobs:
         run: |
           cd workspace
           # ls -ltra ..
-          ls -ltra deploy/scripts/compile.sh
           chmod 755 deploy/scripts/compile.sh
+          ls -ltra deploy/scripts/compile.sh
       - name: Lint
-        run: bash deploy/scripts/lint.sh
+        run: ./deploy/scripts/lint.sh
       - name: Compile3
         run: bash ../deploy/scripts/compile.sh
       - name: Analyze

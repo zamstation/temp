@@ -85,7 +85,7 @@ jobs:
         uses: dart-lang/setup-dart@v1
       - name: Go to build directory
         run: |
-          # cd workspace/build
+          cd workspace
           # ls -ltra ..
           ls -ltra deploy/scripts/compile.sh
           chmod 755 deploy/scripts/compile.sh

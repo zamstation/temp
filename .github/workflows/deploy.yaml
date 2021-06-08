@@ -72,8 +72,6 @@ jobs:
       - name: Pack
         run: |
           cd workspace
-          ls -ltra code
-          ls -ltra build
           bash deploy/scripts/pack.sh code build
 
       - name: Export Workspace

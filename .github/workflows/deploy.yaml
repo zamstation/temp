@@ -97,7 +97,9 @@ jobs:
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
       - name: Test
-        run: bash deploy/scripts/test.sh build
+        run: |
+          ls -ltra build
+          bash deploy/scripts/test.sh build
       - name: Export Workspace
         uses: actions/cache@v2
         with:

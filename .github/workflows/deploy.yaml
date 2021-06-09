@@ -20,14 +20,14 @@ jobs:
       run:
         working-directory: .
     env:
+      DEPLOYER_REPO_NAME: dart_package_deployer
       DEPLOYER_PUBSPEC: https://raw.githubusercontent.com/zamstation/dart_package_deployer/main/pubspec.yaml
-      CACHE_KEY_PREFIX: dart-package-workspace
 
     steps:
       - name: Extract Cache Key
         id: extract-cache-key
         run: |
-          cacheKey="$CACHE_KEY_PREFIX-$(curl -s $DEPLOYER_PUBSPEC | grep "version:" | cut -d":" -f2 | xargs)"
+          cacheKey="$DEPLOYER_REPO_NAME-$(curl -s $DEPLOYER_PUBSPEC | grep "version:" | cut -d":" -f2 | xargs)"
           echo "Cache Key: $cacheKey"
           echo "::set-output name=cacheKey::$cacheKey"
       - name: Extract Workspace From Cache
@@ -39,9 +39,9 @@ jobs:
       - name: Create New Workspace
         if: steps.cache-workspace.outputs.cache-hit != 'true'
         run: |
-          git clone https://github.com/zamstation/dart_package_deployer.git
-          bash dart_package_deployer/bin/main.sh
-          rm -rf dart_package_deployer
+          git clone https://github.com/zamstation/$DEPLOYER_REPO_NAME.git
+          bash $DEPLOYER_REPO_NAME/bin/main.sh
+          rm -rf $DEPLOYER_REPO_NAME
       - name: Show Workspace
         run: |
           echo -e "\nWorkspace Directory:"

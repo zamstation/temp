@@ -85,7 +85,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: workspace
-          key: build-${{ github.sha }}
+          key: test-${{ github.sha }}
 
   build:
     name: Build
@@ -96,7 +96,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: workspace
-          key: prepare-${{ github.sha }}
+          key: test-${{ github.sha }}
       - name: Pack
         run: bash deploy/scripts/pack.sh code build
       - name: Cleanup

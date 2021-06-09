@@ -74,7 +74,7 @@ jobs:
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
       - id: composite-test
-        uses: zamstation/actions/dart_package/test
+        uses: zamstation/actions/dart_package/test@main
       - name: Compile
         run: bash ../deploy/scripts/compile.sh
       - name: Lint

@@ -73,20 +73,16 @@ jobs:
           path: workspace/code
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
-      - name: debug
-        run: |
-          ls -ltr
-          ls -ltr ../deploy/scripts
-          ls -ltr ../deploy/scripts/compile.sh
-      - uses: zamstation/actions/dart_package/test@main
-      - name: Compile
-        run: bash ../deploy/scripts/compile.sh
-      - name: Lint
-        run: bash ../deploy/scripts/lint.sh
-      - name: Analyze
-        run: bash ../deploy/scripts/analyze.sh
-      - name: Test
-        run: bash ../deploy/scripts/test.sh
+      - name: Test Composite
+        uses: zamstation/actions/dart_package/test@main
+      # - name: Compile
+      #   run: bash ../deploy/scripts/compile.sh
+      # - name: Lint
+      #   run: bash ../deploy/scripts/lint.sh
+      # - name: Analyze
+      #   run: bash ../deploy/scripts/analyze.sh
+      # - name: Test
+      #   run: bash ../deploy/scripts/test.sh
       - name: Export Workspace
         uses: actions/cache@v2
         with:

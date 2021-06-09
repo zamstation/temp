@@ -117,6 +117,8 @@ jobs:
         with:
           path: workspace
           key: build-${{ github.sha }}
+      - name: Install Dart
+        uses: dart-lang/setup-dart@v1
       - name: Validate
         run: bash deploy/scripts/validate.sh build
       - name: Publish

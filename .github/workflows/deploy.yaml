@@ -74,12 +74,11 @@ jobs:
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
       - name: debug
-        uses: |
+        run: |
           ls -ltr
           ls -ltr ../deploy/scripts
           ls -ltr ../deploy/scripts/compile.sh
-      - id: test
-        uses: zamstation/actions/dart_package/test@main
+      - uses: zamstation/actions/dart_package/test@main
       - name: Compile
         run: bash ../deploy/scripts/compile.sh
       - name: Lint

@@ -101,6 +101,11 @@ jobs:
         run: bash deploy/scripts/pack.sh code build
       - name: Cleanup
         run: rm -rf code
+      - name: Export Workspace
+        uses: actions/cache@v2
+        with:
+          path: workspace
+          key: build-${{ github.sha }}
 
   deploy:
     name: Deploy

@@ -52,11 +52,10 @@ jobs:
       #   with:
       #     path: workspace
       #     key: build-${{ github.sha }}
-      - name: Import Workspace
-        uses: actions/cache@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
         with:
-          path: workspace
-          key: build-${{ github.sha }}
+          path: workspace/build
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
       - name: Deploy

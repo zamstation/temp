@@ -37,7 +37,7 @@ jobs:
           path: workspace
           key: build-${{ github.sha }}
 
-  deploy:
+  dry_deploy:
     name: Dry Deploy
     runs-on: ubuntu-latest
     needs: [build]
@@ -50,4 +50,4 @@ jobs:
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
       - name: Dry Deploy
-        uses: zamstation/dart_package_deployer/actions/deploy@test
+        uses: zamstation/dart_package_deployer/actions/dry_deploy@test

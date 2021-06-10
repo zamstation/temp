@@ -1,4 +1,4 @@
-import 'package:zam_temp/zam_temp.dart';
+import 'package:zam_temp1/zam_temp1.dart';
 
 void main() {
   final triangle = Triangle(6, 4);

@@ -73,8 +73,7 @@ jobs:
           path: workspace/code
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
-      - name: Composite action testing
-        uses: zamstation/dart_package_deployer/actions/test@test
+      - uses: zamstation/dart_package_deployer/actions@main
       # - name: Compile
       #   run: bash ../deploy/scripts/compile.sh
       # - name: Lint

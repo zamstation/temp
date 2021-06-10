@@ -1,7 +1,6 @@
-name: temp
-version: 0.1.1
-description: Core library for all zamstation packages which contains the most
-  basic classes like the NamedException to get started.
+name: zam_temp
+version: 0.0.1
+description: A package that is used in the testing of automatic dart package deployment.
 homepage: https://zamstation.com
 repository: https://github.com/zamstation/temp
 

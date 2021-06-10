@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:temp/temp.dart';
+import 'package:zam_temp/zam_temp.dart';
 
 void main() {
   testObjectAsStreamExtension();

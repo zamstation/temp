@@ -13,54 +13,51 @@ defaults:
     working-directory: workspace
 
 jobs:
-  prepare:
-    name: Prepare
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: .
-    env:
-      DEPLOYER_REPO_NAME: dart_package_deployer
-      DEPLOYER_PUBSPEC: https://raw.githubusercontent.com/zamstation/dart_package_deployer/main/pubspec.yaml
+  # prepare:
+  #   name: Prepare
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: .
+  #   env:
+  #     DEPLOYER_REPO_NAME: dart_package_deployer
+  #     DEPLOYER_PUBSPEC: https://raw.githubusercontent.com/zamstation/dart_package_deployer/main/pubspec.yaml
 
-    steps:
-      - name: Extract Cache Key
-        id: extract-cache-key
-        run: |
-          cacheKey="$DEPLOYER_REPO_NAME-$(curl -s $DEPLOYER_PUBSPEC | grep "version:" | cut -d":" -f2 | xargs)"
-          echo "Cache Key: $cacheKey"
-          echo "::set-output name=cacheKey::$cacheKey"
-      - name: Extract Workspace From Cache
-        id: cache-workspace
-        uses: actions/cache@v2
-        with:
-          path: workspace
-          key: ${{ steps.extract-cache-key.outputs.cacheKey }}
-      - name: Create New Workspace
-        if: steps.cache-workspace.outputs.cache-hit != 'true'
-        run: |
-          git clone https://github.com/zamstation/$DEPLOYER_REPO_NAME.git
-          bash $DEPLOYER_REPO_NAME/bin/main.sh
-          rm -rf $DEPLOYER_REPO_NAME
-      - name: Show Workspace
-        run: |
-          echo -e "\nWorkspace Directory:"
-          ls -ltra workspace
-          echo -e "\nScripts Directory:"
-          ls -ltra workspace/deploy/scripts
-      - name: Export Workspace
-        uses: actions/cache@v2
-        with:
-          path: workspace
-          key: prepare-${{ github.sha }}
+  #   steps:
+  #     - name: Extract Cache Key
+  #       id: extract-cache-key
+  #       run: |
+  #         cacheKey="$DEPLOYER_REPO_NAME-$(curl -s $DEPLOYER_PUBSPEC | grep "version:" | cut -d":" -f2 | xargs)"
+  #         echo "Cache Key: $cacheKey"
+  #         echo "::set-output name=cacheKey::$cacheKey"
+  #     - name: Extract Workspace From Cache
+  #       id: cache-workspace
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: workspace
+  #         key: ${{ steps.extract-cache-key.outputs.cacheKey }}
+  #     - name: Create New Workspace
+  #       if: steps.cache-workspace.outputs.cache-hit != 'true'
+  #       run: |
+  #         git clone https://github.com/zamstation/$DEPLOYER_REPO_NAME.git
+  #         bash $DEPLOYER_REPO_NAME/bin/main.sh
+  #         rm -rf $DEPLOYER_REPO_NAME
+  #     - name: Show Workspace
+  #       run: |
+  #         echo -e "\nWorkspace Directory:"
+  #         ls -ltra workspace
+  #         echo -e "\nScripts Directory:"
+  #         ls -ltra workspace/deploy/scripts
+  #     - name: Export Workspace
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: workspace
+  #         key: prepare-${{ github.sha }}
 
   test:
     name: Test
     runs-on: ubuntu-latest
-    needs: [prepare]
-    defaults:
-      run:
-        working-directory: workspace/code
+    # needs: [prepare]
     steps:
       - name: Import Workspace
         uses: actions/cache@v2
@@ -73,15 +70,8 @@ jobs:
           path: workspace/code
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
-      - uses: zamstation/dart_package_deployer/actions/test@test
-      # - name: Compile1
-      #   run: bash ../deploy/scripts/compile.sh
-      # - name: Lint
-      #   run: bash ../deploy/scripts/lint.sh
-      # - name: Analyze
-      #   run: bash ../deploy/scripts/analyze.sh
-      # - name: Test
-      #   run: bash ../deploy/scripts/test.sh
+      - name: Test
+        uses: zamstation/dart_package_deployer/actions/test@test
       - name: Export Workspace
         uses: actions/cache@v2
         with:
@@ -92,7 +82,6 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     needs: [test]
-    if: "false"
     steps:
       - name: Import Workspace
         uses: actions/cache@v2
@@ -100,7 +89,9 @@ jobs:
           path: workspace
           key: test-${{ github.sha }}
       - name: Pack
-        run: bash deploy/scripts/pack.sh code build
+        run: |
+          mkdir -p build
+          bash deploy/scripts/pack.sh code build
       - name: Cleanup
         run: rm -rf code
       - name: Export Workspace
@@ -113,6 +104,7 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     needs: [build]
+    if: "false"
     steps:
       - name: Import Workspace
         uses: actions/cache@v2

@@ -88,12 +88,8 @@ jobs:
         with:
           path: workspace
           key: test-${{ github.sha }}
-      - name: Pack
-        run: |
-          mkdir -p build
-          bash deploy/scripts/pack.sh code build
-      - name: Cleanup
-        run: rm -rf code
+      - name: Build
+        uses: zamstation/dart_package_deployer/actions/build@test
       - name: Export Workspace
         uses: actions/cache@v2
         with:

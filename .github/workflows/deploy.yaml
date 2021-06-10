@@ -21,22 +21,16 @@ jobs:
         uses: dart-lang/setup-dart@v1
       - name: Test
         uses: zamstation/dart_package_deployer/actions/test@test
-      - name: Export Workspace
-        uses: actions/cache@v2
-        with:
-          path: workspace
-          key: test-${{ github.sha }}
 
   build:
     name: Build
     runs-on: ubuntu-latest
     needs: [test]
     steps:
-      - name: Import Workspace
-        uses: actions/cache@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
         with:
-          path: workspace
-          key: test-${{ github.sha }}
+          path: workspace/code
       - name: Build
         uses: zamstation/dart_package_deployer/actions/build@test
       - name: Export Workspace

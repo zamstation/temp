@@ -2,9 +2,9 @@ name: Build Package
 
 on:
   push:
-    branches-ignore: [main, temp]
+    branches-ignore: [temp]
   pull_request:
-    branches-ignore: [main, temp]
+    branches-ignore: [temp]
 
 jobs:
   test:

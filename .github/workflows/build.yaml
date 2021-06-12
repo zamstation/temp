@@ -10,6 +10,7 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    if: "false"
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -24,6 +25,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     needs: [test]
+    if: "false"
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -40,13 +42,17 @@ jobs:
   dry_deploy:
     name: Dry Deploy
     runs-on: ubuntu-latest
-    needs: [build]
+    # needs: [build]
     steps:
-      - name: Import Workspace
-        uses: actions/cache@v2
+      # - name: Import Workspace
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: workspace
+      #     key: build-${{ github.sha }}
+      - name: Checkout Repository
+        uses: actions/checkout@v2
         with:
-          path: workspace
-          key: build-${{ github.sha }}
+          path: workspace/code
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
       - name: Dry Deploy

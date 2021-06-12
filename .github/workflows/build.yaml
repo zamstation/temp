@@ -18,7 +18,7 @@ jobs:
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
       - name: Test
-        uses: zamstation/dart_package_deployer/actions/test@test
+        uses: zamstation/dart_package_deployer/actions/test@main
 
   build:
     name: Build
@@ -30,7 +30,7 @@ jobs:
         with:
           path: workspace/code
       - name: Build
-        uses: zamstation/dart_package_deployer/actions/build@test
+        uses: zamstation/dart_package_deployer/actions/build@main
       - name: Export Workspace
         uses: actions/cache@v2
         with:
@@ -50,4 +50,4 @@ jobs:
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
       - name: Dry Deploy
-        uses: zamstation/dart_package_deployer/actions/dry_deploy@test
+        uses: zamstation/dart_package_deployer/actions/dry_deploy@main

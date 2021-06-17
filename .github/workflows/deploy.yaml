@@ -16,8 +16,7 @@ jobs:
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
       - name: Test
-        uses: zamstation/dart_package_deployer/actions/test@main
-
+        uses: zamstation/dart_package_deployer/actions/test@testing
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -28,7 +27,7 @@ jobs:
         with:
           path: workspace/code
       - name: Build
-        uses: zamstation/dart_package_deployer/actions/build@main
+        uses: zamstation/dart_package_deployer/actions/build@testing
       - name: Export Workspace
         uses: actions/cache@v2
         with:
@@ -51,4 +50,4 @@ jobs:
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
       - name: Deploy
-        uses: zamstation/dart_package_deployer/actions/deploy@main
+        uses: zamstation/dart_package_deployer/actions/deploy@testing

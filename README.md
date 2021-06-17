@@ -1,3 +1,5 @@
-# Dummy Library
+# Dummy Package
 
-A package that is used in the testing of automatic dart package deployment.
+*** ***Not for public use*** ***
+
+A dummy package that is used, internally by the Zamstation team, in the testing of automated dart package deployment.

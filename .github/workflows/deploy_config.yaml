@@ -17,10 +17,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
       - name: Create docker files list
-        run: bash scripts/list.sh
+        run: |
+          echo ${{ github.event.before }}
+          echo ${{ github.event.after }}
+          git diff --name-only ${{ github.event.before }}..${{ github.event.after }}
+          bash scripts/list.sh
 
       - name: Export list
         id: export

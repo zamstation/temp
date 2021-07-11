@@ -21,7 +21,7 @@ jobs:
 
       - name: Create docker files list
         run: |
-          git diff-tree --no-commit-id --name-only -r HEAD..origin/master
+          git diff-tree --no-commit-id --name-only -r HEAD..origin/main
           bash scripts/list.sh
 
       - name: Export list

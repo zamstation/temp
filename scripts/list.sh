@@ -36,6 +36,7 @@ set +e
 logStep "Gathering the list of new and modified Dockerfiles"
 echo "GITHUB_REF: $GITHUB_REF"
 echo "GITHUB_SHA: $GITHUB_SHA"
+echo "COMMIT_SHA: $COMMIT_SHA"
 git diff --name-only "$GITHUB_REF..$GITHUB_SHA"
 git diff-tree --no-commit-id --name-only -r HEAD..$COMMIT_SHA
 readarray -t dockerFiles < <(git diff-tree --no-commit-id --name-only -r $COMMIT_SHA | grep -sE "lib/.+/Dockerfile$")

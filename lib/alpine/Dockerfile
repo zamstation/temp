@@ -1,7 +1,7 @@
 # Fetch base image
 FROM alpine
 
-# Set Environment Variables a
+# Set Environment Variables
 ENV USER="dev" \
 	HOME="/home/dev" \
 	LOCAL="/usr/local" \

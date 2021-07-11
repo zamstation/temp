@@ -15,17 +15,10 @@ jobs:
     outputs:
       docker_file_list: ${{ steps.export.outputs.docker_file_list }}
     steps:
-      - name: Calculate number of commits
-        id: calculate_commit_count
-        run: |
-          echo "::set-output name=commit_count::$(git rev-list ${{ github.event.before }}..${{ github.event.after }} | wc -l)"
-          git rev-list ${{ github.event.before }}..${{ github.event.after }} | wc -l
-          echo ${{ steps.calculate_commit_count.outputs.commit_count }}
-
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
-          fetch-depth: ${{ steps.calculate_commit_count.outputs.commit_count }}
+          fetch-depth: 10 # so that previous commits can be compared.
 
       - name: Create docker files list
         run: bash scripts/list.sh

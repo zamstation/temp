@@ -20,9 +20,7 @@ jobs:
           fetch-depth: 2
 
       - name: Create docker files list
-        run: |
-          git diff-tree --no-commit-id --name-only -r HEAD..origin/main
-          bash scripts/list.sh
+        run: bash scripts/list.sh
 
       - name: Export list
         id: export

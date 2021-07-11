@@ -37,8 +37,12 @@ logStep "Gathering the list of new and modified Dockerfiles"
 echo "GITHUB_REF: $GITHUB_REF"
 echo "GITHUB_SHA: $GITHUB_SHA"
 echo "COMMIT_SHA: $COMMIT_SHA"
-git diff --name-only "$GITHUB_REF..$GITHUB_SHA"
-git diff-tree --no-commit-id --name-only -r HEAD..$COMMIT_SHA
+echo "before: ${{ github.event.before }}"
+echo "after: ${{ github.event.after }}"
+
+
+git diff --name-only ${{ github.event.before }}..${{ github.event.after }}
+
 readarray -t dockerFiles < <(git diff-tree --no-commit-id --name-only -r $COMMIT_SHA | grep -sE "lib/.+/Dockerfile$")
 if [[ ${#dockerFiles[@]} -eq 0 ]]; then
 	echo "No new docker file found."

@@ -54,7 +54,7 @@ for dockerFile in "${dockerFiles[@]}"; do
 	repoName="$(basename $(dirname $dockerFile))"
 	logStep "Building container: zamstation/$repoName"
 	echo -e "Running docker build . -f $dockerFile -t zamstation/$repoName"
-	docker build . -f "$dockerFile" -t zamstation/$repoName
+	# docker build . -f "$dockerFile" -t zamstation/$repoName
 	exitCode=$?
 	if [[ exitCode -ne 0 ]]; then
 		throwAndExit "DOCKER_BUILD_ERROR" "Building docker image 'zamstation/$repoName' failed."
@@ -62,7 +62,7 @@ for dockerFile in "${dockerFiles[@]}"; do
 
 	logStep "Pushing container: zamstation/$repoName"
 	echo -e "Running docker push zamstation/$repoName"
-	docker push zamstation/$repoName
+	# docker push zamstation/$repoName
 	exitCode=$?
 	if [[ exitCode -ne 0 ]]; then
 		throwAndExit "DOCKER_PUBLISH_ERROR" "Publishing docker image 'zamstation/$repoName' failed."

@@ -10,21 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SHELL_UTILITIES_ACCESS_TOKEN: ${{ secrets.SHELL_UTILITIES_ACCESS_TOKEN }}
-      COMMIT_SHA: ${{ github.sha }}
+      COMMIT_SHA_BEFORE: ${{ github.event.before }}
+      COMMIT_SHA_AFTER: ${{ github.event.after }}
     outputs:
       docker_file_list: ${{ steps.export.outputs.docker_file_list }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
+          fetch-depth: 10
 
       - name: Create docker files list
-        run: |
-          echo ${{ github.event.before }}
-          echo ${{ github.event.after }}
-          git diff --name-only ${{ github.event.before }}..${{ github.event.after }}
-          bash scripts/list.sh
+        run: bash scripts/list.sh
 
       - name: Export list
         id: export

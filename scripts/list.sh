@@ -10,7 +10,8 @@
 #
 #		Environment Variables:
 #			1. SHELL_UTILITIES_ACCESS_TOKEN
-#			2. COMMIT_SHA
+#			2. COMMIT_SHA_BEFORE
+#			2. COMMIT_SHA_AFTER
 #
 #-----------------------------------------------------------------------------
 
@@ -34,11 +35,7 @@ set +e
 # Gathering the list of new and modified Dockerfiles
 #
 logStep "Gathering the list of new and modified Dockerfiles"
-echo "GITHUB_REF: $GITHUB_REF"
-echo "GITHUB_SHA: $GITHUB_SHA"
-echo "COMMIT_SHA: $COMMIT_SHA"
-
-readarray -t dockerFiles < <(git diff-tree --no-commit-id --name-only -r $COMMIT_SHA | grep -sE "lib/.+/Dockerfile$")
+readarray -t dockerFiles < <(git diff --name-only $COMMIT_SHA_BEFORE..$COMMIT_SHA_AFTER | grep -sE "lib/.+/Dockerfile$")
 if [[ ${#dockerFiles[@]} -eq 0 ]]; then
 	echo "No new docker file found."
 else

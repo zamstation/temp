@@ -47,7 +47,7 @@ if [[ $dockerFiles == "" ]]; then
 fi
 
 #
-# Building and pushing containers
+# Building and pushing containers a
 #
 for dockerFile in "${dockerFiles[@]}"; do
 

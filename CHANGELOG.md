@@ -1,3 +1,6 @@
+# 0.1.2
+- Testing dart pub publish.
+
 # 0.1.1
 - Testing Validate Script.
 

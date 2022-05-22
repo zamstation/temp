@@ -1,3 +1,6 @@
+# 0.1.3
+- Testing dart pub publish again.
+
 # 0.1.2
 - Testing dart pub publish.
 
